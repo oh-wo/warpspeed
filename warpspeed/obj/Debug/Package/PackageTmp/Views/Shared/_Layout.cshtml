@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+   <link href="~/Content/Site.css" rel="stylesheet" />
+     <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Play:400,700|Archivo+Black' rel='stylesheet' type='text/css'>
+    <style>
+        #saved {
+position: absolute;
+z-index: 1;
+background-color: #000;
+right: 5%;
+color: #fff;
+padding-left: 10px;
+padding-right: 10px;
+padding-bottom: 2px;
+}
+        #niceAlert {
+position: absolute;
+z-index: 1;
+background-color: #000;
+right: 5%;
+color: #fff;
+padding-left: 10px;
+padding-right: 10px;
+padding-bottom: 2px;
+}
+        
+    </style>
+    <script>
+        function Saved() {
+            $('#saved').fadeIn(200, function () { setTimeout(function () { $('#saved').fadeOut(500) },500) });
+        }
+        function NiceError(message) {
+            $('#niceAlert').text(message).fadeIn(200, function () { setTimeout(function () { $('#niceAlert').fadeOut(500) }, 500) });
+        }
+    </script>
+</head>
+<body>
+    <div id="saved" style="display:none;">saved</div>
+    <div id="niceAlert" style="display:none;"></div>
+    @RenderBody()
+   
+</body>
+</html>

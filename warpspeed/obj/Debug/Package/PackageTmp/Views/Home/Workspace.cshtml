@@ -1,0 +1,158 @@
+﻿@using warpspeed.Models;
+@model Project
+<script>
+    $(document).ready(function () {
+        $('.sp-menu-prog').each(function (i, progBar) {
+            $(progBar).progressbar({ value: parseInt($('.sp-container[spid="' + $(progBar).closest('.sp-menu-item').attr('spid') + '"]').attr('percentcomplete')) });
+        });//configure progress bars as progress bars
+        $('.sp-date').datepicker();
+        $('.sp-container:not(:first)').addClass('invisible');
+        $('.sp-menu-item[spid="' + $('.sp-container:not(.invisible)').attr('spid') + '"]').addClass('selectedSpMenuItem');
+        $('.sp-menu-container').sortable();
+
+        $('.pSB-p[pid="@Model.ID"]').addClass('selectedPMenuItem');
+        $(document).on('focus','.p-share-create',function(e){
+            $this = $(this);
+            if ($this.val() == $this.attr('originaltext')) {
+                $this.val('');
+            } else {
+                //user is doing something, all good
+            }
+        });
+        $(document).on('focusout', '.p-share-create', function (e) {
+            $this = $(this);
+            if ($this.val() == '') {
+                $this.val($this.attr('originaltext'));
+            } else {
+                //user is doing something, all good
+            }
+        });
+        $('.p-share-create').autocomplete({
+            source: function (request, response) {
+                var data = {
+                    searchString: $('.p-share-create').val(),
+                    Project: true,//required so that users who are already part of the project aren't returned
+                    SubProject: false,//required so that users who are already part of the subproject aren't returned
+                    ID : $('.p-title').attr('pid'), //required so that users who are already part of the project aren't returned
+                };//ID is either the project ID or the subproject ID
+                var dataToPost = JSON.stringify(data);
+                $.ajax({
+                    url: "/Home/SearchNames",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: dataToPost,
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.Name,//displayed in the dropdown
+                                value: item.Name,//displayed in the textbox
+                                id: item.Id,
+                            }
+                        }));
+
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                $('.p-share-create').attr('name', ui.item.label);
+                $('.p-share-create').attr('id', ui.item.id);
+                $('.p-share-create-confirm').removeAttr('disabled'); 
+                //setup watch here- if user messes with the data have to kill it & then kill the watch subsequently
+            },
+        });
+    });
+    
+</script>
+
+
+<div class="p-title" pid="@Model.ID">@Model.Title</div>
+<div class="w-options">
+    <div class="p-share-container">
+        <img src="/Content/share.png" class="p-share-icon" />
+        <div class="p-share-popup invisible popup">
+            <input type="text" class="p-share-create" originaltext="search by names & groups" value="search by names & groups">
+            <input type="button" value="add" class="p-share-create-confirm" disabled="disabled"/>
+         @foreach(WUserProject userProj in Model.WUserProjects){
+            <div class="p-share" uid="@userProj.WUserID">
+                <div class="p-shared-title" >@Html.Raw(String.Format("{0} {1}",userProj.WUser.FirstName,userProj.WUser.LastName))</div>
+                @if(Model.CreatedByID!=userProj.WUserID){
+                    //this user made the project, they can't be deleted
+                    <div class="p-shared-unshare">x</div>
+                }else{
+                    //they can be deleted
+                }
+            </div>
+         }
+        </div>
+    </div>
+    <div class="p-not-container">
+        <div class="p-not-icon">!</div>
+        <div class="p-not-popup  popup invisible">
+            @Html.Action("ProjectNotifications", "Project", new { ProjectID = Model.ID })
+        </div>
+    </div>
+    <div class="p-createNewSp-container" title="create new subproject">+</div>
+</div>
+
+<div class="sp-menu-container">
+    @foreach (SubProject sp in Model.SubProjects.OrderBy(sp => sp.Created))
+    {
+        <div class="sp-menu-item" spid="@sp.ID" title="@Html.Raw(String.Format("{0} {1}% complete", sp.Title.Trim(), (sp.PercentComplete ?? 0)))">
+            <div class="sp-menu-title">
+                @sp.Title
+            </div>
+            @if(sp.Tasks.Any(t=>(t.TaskNotifcations.Any(tn=>tn.WUserID!=new Guid(User.Identity.Name)&&!tn.NotificationSeens.Any(tns=>tns.WUserID==new Guid(User.Identity.Name)))))){
+                <div class="sp-not">!</div>
+            }
+            <div class="sp-menu-prog"></div>
+        </div>
+    }
+</div>
+@{string currentUsersOptionString = "";}
+@foreach (WUserProject userProject in Model.WUserProjects)
+{
+    currentUsersOptionString += String.Format("<option value='{0}' {1}>{2}</option>", userProject.WUserID, (new Guid(User.Identity.Name) == userProject.WUserID ? "selected='selected'" : ""), userProject.WUser.FirstName);
+
+}
+@foreach (SubProject sp in Model.SubProjects.Where(sp=>sp.WUserSubprojects.Any(usp=>usp.WUserID==new Guid(User.Identity.Name))))
+{
+    <div class="sp-container" spid="@sp.ID" percentComplete="@(sp.PercentComplete ?? 0)">
+        <div class="sp-information">
+            @foreach(WUserSubproject userProj in sp.WUserSubprojects.OrderBy(usp=>usp.WUser.FirstName)){
+            <div class="sp-share" uid="@userProj.WUserID" style="float:left;">
+                <div class="sp-shared-title" >@Html.Raw(String.Format("{0}",userProj.WUser.FirstName))</div>
+                @if(Model.CreatedByID!=userProj.WUserID){
+                    //this user made the project, they can't be deleted
+                    <div class="sp-shared-unshare">x</div>
+                }else{
+                    //they can be deleted
+                }
+            </div>
+         }
+        </div>
+        <div class="sp-task-container">
+            <div class="sp-task-holder newTask">
+                <div class="sp-task">
+                    <div class="sp-task-status sp-task-status-incomplete invisible" title="status"></div>
+                    <input type="text" class="sp-task-value" value="" style="margin-left: 44px;" />
+                    <div class="sp-task-remove invisible">x</div>
+                    <select class="sp-task-target invisible" title="Who is the task for?">
+                        @Html.Raw(currentUsersOptionString)
+                    </select>
+                    <div class="sp-task-completedBy invisible"><span class="sp-task-completedBy-value"></span></div>
+                    <input type="text" class="sp-startDate sp-date invisible" value="" readonly="readonly" title="start date" />
+                    <input type="text" class="sp-endDate sp-date invisible" value="" readonly="readonly" title="end date" />
+                </div>
+            </div>
+            @foreach (Task task in sp.Tasks.Where(t => t.ParentTaskID == null).OrderByDescending(t => t.Created))
+            {
+                @Html.Raw(warpspeed.Helpers.TaskHelper.GetChildren(task, sp.Tasks.Where(t => t.ParentTaskID != null), sp.WUserSubprojects, 0));
+            }
+        </div>
+    </div>
+}
+<input type="hidden" id="currentUsersOptions" value="@Html.Raw(currentUsersOptionString)"/>
+
+

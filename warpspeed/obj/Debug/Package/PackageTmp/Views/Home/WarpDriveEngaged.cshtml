@@ -1,0 +1,1159 @@
+﻿@using warpspeed.Models
+@model List<Project>
+@{
+    ViewBag.Title = "WarpDriveEngaged";
+}
+<style>
+    .sp-menu-item {
+        float: left;
+        padding-left: 1%;
+        padding-right: 1%;
+        position: relative;
+        height: 22px;
+        cursor: default;
+    }
+
+    .sp-menu-title {
+        text-align: center;
+        width: 102%;
+    }
+
+        .sp-menu-title.editing {
+            background-color: #ccc;
+            padding-left: 10px;
+            padding-right: 10px;
+            color: #000;
+            cursor: text;
+        }
+
+    .sp-menu-container {
+        position: absolute;
+        top: 104px;
+        left: 210px;
+        width: 100%;
+    }
+
+    .sp-menu-prog.ui-progressbar {
+        width: 80%;
+        height: 2px;
+        position: absolute;
+        bottom: 0px;
+    }
+
+        .sp-menu-prog.ui-progressbar > div {
+            background-color: #ccc;
+        }
+
+        .sp-menu-prog.ui-progressbar.progBarHover > .ui-progressbar-value {
+            background-color: rgb(235, 0, 0);
+        }
+
+    .sp-menu-item.selectedSpMenuItem > .sp-menu-prog.ui-progressbar > .ui-progressbar-value {
+        background-color: rgb(235, 0, 0);
+    }
+
+    .sp-not {
+        position: absolute;
+        font-weight: bold;
+        font-size: 13px;
+        right: 7px;
+        top: -9px;
+        color: #f00;
+    }
+
+    .sp-container {
+        position: absolute;
+        top: 147px;
+        left: 224px;
+        width: 100%;
+        height: 600px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    .sp-information {
+        float: left;
+        clear: left;
+    }
+
+    .sp-task-container {
+        float: left;
+        clear: left;
+        width: 1200px;
+    }
+
+    .sp-task {
+        float: left;
+        clear: left;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+        .sp-task > input {
+            background-color: inherit;
+        }
+
+        .sp-task > select {
+            background-color: inherit;
+        }
+
+        .sp-task:hover {
+            background-color: rgb(250, 250, 250);
+        }
+
+    .sp-task-status {
+        float: left;
+        height: 20px;
+        width: 20px;
+        margin-top: 1px;
+        margin-right: -7px;
+        background-image: url(/Content/symbols.png);
+        background-repeat: no-repeat;
+        background-size: auto;
+        opacity: 0.3;
+    }
+
+    .sp-task-createSubTask {
+        float: left;
+        margin-left: 10px;
+        cursor: pointer;
+        color: #ccc;
+    }
+
+    .sp-task-status-incomplete {
+        background-position: -94px -299px;
+    }
+
+    .sp-task-status-complete {
+        background-position: -63px -299px;
+    }
+
+    .sp-task-status-active {
+        background-position: -248px -340px;
+    }
+
+    .sp-task-value {
+        float: left;
+        width: 700px;
+        border-top: transparent;
+        border-left: transparent;
+        border-right: transparent;
+        border-bottom: solid 1px #ccc;
+        margin-left: 10px;
+    }
+
+    .sp-task-container > .sp-task:first-child > .sp-task-value {
+        border-bottom: solid 1px rgb(172, 172, 172);
+    }
+
+    .sp-task-remove {
+        float: left;
+        margin-left: 10px;
+        cursor: pointer;
+        color: #ccc;
+    }
+
+    .sp-task-target {
+        margin-left: 30px;
+        width: 100px;
+        float: left;
+        border: transparent;
+        color: rgb(126, 126, 126);
+        text-align: right;
+        overflow: hidden;
+        -webkit-appearance: none;
+    }
+
+    .sp-task-completedBy {
+        float: left;
+        margin-left: 10px;
+        color: rgb(179, 179, 179);
+    }
+
+    .sp-startDate {
+        margin-left: 50px;
+    }
+
+    .sp-date {
+        width: 100px;
+        float: left;
+        margin-left: 50px;
+        border-left: transparent;
+        border-top: transparent;
+        border-right: transparent;
+        border-bottom: solid 1px #ccc;
+    }
+
+    .sp-endDate {
+        margin-left: 10px;
+    }
+
+    .p-createNewSp-container {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: -9px;
+        margin-left: 7px;
+        cursor: pointer;
+    }
+
+    .sp-task-subTasks {
+        float: left;
+        margin-left: 20px;
+    }
+
+    .sp-task[depth="1"] .sp-task-value {
+        width: 680px;
+    }
+
+    .sp-task[depth="2"] .sp-task-value {
+        width: 660px;
+    }
+
+    .sp-task[depth="3"] .sp-task-value {
+        width: 640px;
+    }
+
+    .sp-task[depth="4"] .sp-task-value {
+        width: 620px;
+    }
+
+    .sp-task[depth="5"] .sp-task-value {
+        width: 600px;
+    }
+
+    .sp-task[depth="6"] .sp-task-value {
+        width: 580px;
+    }
+
+    .sp-task[depth="7"] .sp-task-value {
+        width: 560px;
+    }
+
+    .sp-task[depth="8"] .sp-task-value {
+        width: 540px;
+    }
+
+    .sp-task-holder {
+        float: left;
+        clear: left;
+    }
+
+    .ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all {
+        background-color: #fff;
+        border: solid 1px #ccc;
+        box-shadow: #ccc 5px 5px 2px -3px;
+    }
+</style>
+<style>
+    .p-not {
+        clear: left;
+    }
+
+    #projectSideBar {
+        width: 200px;
+        height: 100%;
+        margin-left: 0px;
+        margin-top: 0px;
+        background-color: rgb(243, 243, 243);
+        float: left;
+    }
+
+    .pSB-p {
+        float: left;
+        clear: left;
+        height: 18px;
+        text-transform: uppercase;
+        width: 96%;
+        overflow: hidden;
+        padding: 2%;
+        background-color: rgb(238, 238, 238);
+        cursor: default;
+        position: relative;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .ui-progressbar.pSB-p-prog {
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        height: 2px;
+        left: 0%;
+        padding: 1px;
+        border: transparent;
+    }
+
+    .pSB-p-prog > div {
+        background-color: rgb(223, 223, 223);
+    }
+
+    .pSB-p-prog.ui-progressbar.progBarHover > .ui-progressbar-value {
+        background-color: rgb(235, 0, 0);
+    }
+
+    .pSB-p.selectedPMenuItem > .pSB-p-prog.ui-progressbar > .ui-progressbar-value {
+        background-color: rgb(235, 0, 0);
+    }
+
+    .w {
+        top: 0px;
+        left: 200px;
+        width: 100%;
+    }
+
+    .p-title {
+        float: left;
+        margin-top: -2px;
+        margin-left: 20px;
+        font-size: 50px;
+    }
+
+        .p-title.editing {
+            background-color: #ccc;
+            padding-left: 10px;
+            padding-right: 10px;
+            color: #000;
+        }
+
+    .w-options {
+        position: absolute;
+        top: 60px;
+        background-color: #ccc;
+        height: 20px;
+        border-radius: 5px;
+        left: 225px;
+        padding-left: 0px;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+        .w-options > img {
+            float: left;
+        }
+
+        .w-options > div {
+            float: left;
+        }
+
+    .p-share-icon {
+        height: 16px;
+        float: left;
+        margin-top: 2px;
+        margin-left: 8px;
+        cursor: pointer;
+    }
+
+    .p-share-popup {
+        top: 12px;
+        left: 24px;
+    }
+
+    .popup {
+        position: absolute;
+        z-index: 1;
+        background-color: #fff;
+        border: #ccc solid 1px;
+        box-shadow: rgb(63, 63, 63) 0px 0px 26px -1px;
+        padding: 7px;
+    }
+
+    .p-share {
+        background-color: #ccc;
+        float: left;
+        clear: left;
+        max-width: 98%;
+        margin-bottom: 3px;
+        padding-left: 5px;
+        margin-left: 2px;
+        padding-right: 10px;
+    }
+
+    .p-share-create {
+        padding-left: 3px;
+        margin-bottom: 3px;
+        float: left;
+        width: 232px;
+        color: rgb(48, 48, 48);
+    }
+
+    .p-share > div {
+        float: left;
+    }
+
+    .p-shared-unshare {
+        margin-left: 10px;
+        margin-top: -1px;
+        cursor: pointer;
+    }
+
+    .invisible {
+        display: none;
+    }
+
+    .p-not-icon {
+        float: left;
+        font-weight: bold;
+        margin-left: 10px;
+        font-size: 17px;
+        margin-top: -2px;
+        cursor: pointer;
+    }
+
+    .p-not-popup {
+        top: 12px;
+        left: 44px;
+        max-height: 200px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .p-not-title {
+        float: left;
+        white-space: nowrap;
+        padding: 1px;
+        padding-right: 10px;
+        padding-left: 3px;
+        margin-right: 15px;
+    }
+
+        .p-not-title:hover {
+            background-color: rgb(233, 233, 233);
+        }
+
+    .pSB-p-createNew {
+        float: right;
+        margin-right: 10px;
+        margin-top: 10px;
+        font-size: 12px;
+        color: #f00;
+    }
+
+        .pSB-p-createNew:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .pSB-p-createNew.disabled {
+            color: rgb(240, 240, 240);
+        }
+
+    .sp-task-remove.disabled {
+        color: rgb(240, 240, 240);
+    }
+
+    .sp-task-createSubTask.disabled {
+        color: rgb(240, 240, 240);
+    }
+
+    .sp-task-status.disabled {
+        opacity: 0.1;
+    }
+
+    .sp-task-value.complete {
+        color: rgb(141, 141, 141);
+    }
+
+    .sp-share > div {
+        float: left;
+    }
+
+    .sp-shared-unshare {
+        margin-left: 10px;
+        margin-top: -1px;
+        cursor: pointer;
+    }
+
+    .sp-share {
+        background-color: rgb(245, 245, 245);
+        float: left;
+        max-width: 98%;
+        margin-bottom: 3px;
+        padding-left: 5px;
+        margin-left: 2px;
+        padding-right: 10px;
+        color: rgb(163, 163, 163);
+    }
+    .w-load-spinner {
+position: absolute;
+top: 100px;
+left: 250px;
+}
+    .w-load-helpText {
+position: absolute;
+top: 106px;
+color: rgb(58, 58, 58);
+left: 287px;
+}
+</style>
+<link href="/Content/themes/base/jquery.ui.progressbar.css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery.ui.datepicker.css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery.ui.autocomplete.css" rel="stylesheet" />
+<script>
+    //Initialise document stuff
+    $(document).ready(function () {
+        $('.pSB-p-prog').each(function (i, progBar) {
+            $(progBar).progressbar({ value: parseInt($(progBar).closest('.pSB-p').attr('percentcomplete')) });
+        });
+        $('#projectSideBar').sortable({ items: '.pSB-p' });
+    });//progress bars
+    $(document).on('click', '.p-share-icon', function (e) {
+        $(this).closest('.p-share-container').find('.p-share-popup').toggleClass('invisible');
+    });//share popups
+    $(document).on('click', '.p-not-icon', function (e) {
+        $(this).closest('.p-not-container').find('.p-not-popup').toggleClass('invisible');
+    });//share popups
+    $(document).on('click', '.pSB-p', function (e) {
+        $('.w').html('<img src="/Content/21-1.gif" class="w-load-spinner"><div class="w-load-helpText">Project Loading</div>');
+        $('.w').load('/Home/WorkspaceID?pid=' + $(this).attr('pid'));
+    });//load projects
+    //Create new projects
+    $(document).on('click', '.pSB-p-createNew', function (e) {
+        if (!$(this).hasClass('disabled')) {
+            $(this).addClass('disabled');
+            CreateNewProject();
+        } else {
+            //stuff's already going on - give it a minute!
+        }
+    });
+    function CreateNewProject() {
+        var projectTitle = prompt("Enter a project name");
+        if (projectTitle != '') {
+            var data = {
+                Title: projectTitle,
+            };
+            var dataToPost = JSON.stringify(data);
+            $.ajax({
+                type: "POST",
+                url: "/Project/Create",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: dataToPost,
+                success: function (a) {
+                    if (a != null) {
+                        CreateProject(a, projectTitle);
+                        $('.pSB-p-createNew').removeClass('disabled');
+                    } else {
+                        //error creating project
+                        NiceNiceAlert('Error creating project');
+                    };
+                },
+                error: function (ex) {
+                    //communication error
+                    NiceNiceAlert('Couldn\'t connect to the server');
+                },
+            });
+        } else {
+            //no project name entered
+        }
+    }
+    function CreateProject(ID, Title) {
+        //insert project into the project-menu
+        var projText = '<div class="pSB-p" pid="' + ID + '" percentcomplete="0" title="' + Title + ' 0% complete">';
+        projText += '<div class="pSB-p-title">' + Title + '</div>';
+        projText += '<div class="pSB-p-prog"></div>';
+        projText += '</div>';
+        $('.pSB-p-createNew').before(projText);
+        $('.pSB-p[' + ID + ']>pSB-p-prog').progressbar({ value: 0 });
+    }
+    //Rename project title
+    $(document).on('dblclick', '.p-title', function () {
+        $(this).attr('contenteditable', 'true');
+        $(this).addClass('editing');
+        $(this).focus();
+    });
+    $(document).on('focusout', '.p-title', function () {
+        var $element = $(this);
+        $element.attr('contenteditable', 'false');
+        $element.removeClass('editing');
+        var pid = $element.attr('pid');
+        $('.pSB-p[pid="' + pid + '"]').text($element.text());
+        //Save changes
+        RenameProject($element.text(), pid);
+    });
+    function RenameProject(newTitle, projectID) {
+        var data = {
+            NewTitle: newTitle,
+            ProjectID: projectID,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/Project/Rename",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    Saved();
+                } else {
+                    //error creating project
+                    NiceAlert('Error creating project');
+                };
+            },
+            error: function (ex) {
+                //communication error
+            },
+        });
+    }
+    //Delete project
+    $(document).on('mousedown', '.p-title', function (e) {
+        if (e.which == 3) {//right mouseclick
+            if (confirm('Delete project?')) {
+                DeleteProject($(this).attr('pid'));
+            }
+        }
+    });
+    function DeleteProject(ProjectID) {
+        var data = {
+            ProjectID: ProjectID,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/Project/Delete",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    $('.pSB-p[pid="' + ProjectID + '"]').fadeOut(200);
+                    $('.w').html("");
+                    Saved();
+                } else {
+                    //error creating project
+                    NiceNiceAlert('Error deleting project');
+                };
+            },
+            error: function (ex) {
+                //communication error
+                NiceNiceAlert('Couldn\'t connect to the server');
+            },
+        });
+    }
+    //Create new subprojects
+    $(document).on('click', '.p-createNewSp-container', function () {
+        //disable it so user can't go nuts
+        $(this).addClass('disabled');
+        var subTaskTitle = prompt("Enter a title");
+        if (subTaskTitle.length > 0) {
+            var projectID = $('.p-title').attr('pid');
+            SaveNewSubProject(subTaskTitle, projectID);
+        }
+    });
+    function SaveNewSubProject(subProjectTitle, projectID) {
+        //Create new, save to db
+        var data = {
+            ProjectID: projectID,
+            Title: subProjectTitle,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/SubProject/Create",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    var subProjectID = '';
+                    $('.p-createNewSp-container').removeClass('disabled');
+                    InsertnewSubProject(subProjectTitle, projectID, a);
+                    Saved();
+                } else {
+                    //error creating project
+                    NiceAlert('Error creating sub project');
+                };
+            },
+            error: function (ex) {
+                //communication error
+            },
+        });
+
+    }
+    function InsertnewSubProject(subTaskTitle, projectID, subProjectID) {
+        //insert subproject menu title
+        var subProjText = '<div class="sp-menu-item" spid="' + subProjectID + '" title="' + subTaskTitle + ' 0% complete">';
+        subProjText += '<div class="sp-menu-title">' + subTaskTitle + '</div>';
+        subProjText += '<div class="sp-not">!</div>';
+        subProjText += '<div class="sp-menu-prog" ></div>';
+        subProjText += '</div>';
+        //nb convoluted way of inserting below is just to ensure this is added into the correct project and that the user hasn't navigated away while the page dowloads
+        $('.p-title[pid="' + projectID + '"]').closest('.w').find('.sp-menu-container').append(subProjText);
+        //insert subproject workspace
+        var subProjDetails = '<div class="sp-container invisible" spid="' + subProjectID + '" percentComplete="0">';
+        subProjDetails += '<div class="sp-information">';
+        subProjDetails += '</div>';
+        subProjDetails += '<div class="sp-task-container">';
+        subProjDetails += '<div class="sp-task">';
+        subProjDetails += '<div class="sp-task-status sp-task-status-incomplete" title="status"></div>';
+        subProjDetails += '<input type="text" class="sp-task-value" value="" />';
+        subProjDetails += '<div class="sp-task-remove">x</div>';
+        subProjDetails += '<select class="sp-task-target" title="Who is the task for?">' + $('#currentUsersOptions').val() + '</select>';
+        subProjDetails += '<div class="sp-task-completedBy"><span class="sp-task-completedBy-value"></span></div>';
+        subProjDetails += '<input type="text" class="sp-startDate sp-date" value="" readonly="readonly" title="start date" />';
+        subProjDetails += '<input type="text" class="sp-endDate sp-date" value="" readonly="readonly" title="end date" />';
+        subProjDetails += '</div>';
+        subProjDetails += '</div>';
+        subProjDetails += '</div>';
+        //nb convoluted way of inserting below is just to ensure this is added into the correct project and that the user hasn't navigated away while the page dowloads
+        $('.p-title[pid="' + projectID + '"]').closest('.w').append(subProjDetails);
+
+    }
+    //Rename sub-project title
+    $(document).on('dblclick', '.sp-menu-title', function (e) {
+        $('.sp-menu-container').sortable("disable");
+        $(this).attr('contenteditable', 'true');
+        $(this).addClass('editing');
+        $(this).focus();
+    });
+    $(document).on('focusout', '.sp-menu-title', function (e) {
+        $('.sp-menu-container').sortable("enable");
+        var $element = $(this);
+        $element.attr('contenteditable', 'false');
+        $element.removeClass('editing');
+        //Save changes
+        RenameSubProject($element.text(), $element.closest('.sp-menu-item').attr('spid'))
+    });
+    function RenameSubProject(newTitle, subProjectID) {
+        var data = {
+            NewTitle: newTitle,
+            SubProjectID: subProjectID,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/SubProject/Rename",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    Saved();
+                } else {
+                    //error creating project
+                    NiceAlert('Error creating project');
+                };
+            },
+            error: function (ex) {
+                //communication error
+            },
+        });
+    }
+    $(document).on('click', '.sp-task-createSubTask', function (e) {
+        //this only displays a new sub task - it doesn't save it; this is done like normal
+        if (!$(this).hasClass('disabled')) {
+            var subTaskText = '<div class="sp-task-holder newTask">';
+            subTaskText += '<div class="sp-task" depth="' + (parseInt($(this).closest('.sp-task').attr('depth')) + 1) + '">';
+            subTaskText += '<div class="sp-task-status sp-task-status-incomplete" title="status"></div>';
+            subTaskText += '<div class="sp-task-createSubTask disabled" title="create sub task">+</div>';
+            subTaskText += '<input type="text" class="sp-task-value" value=""><div class="sp-task-remove" title="delete task">x</div>';
+            subTaskText += '<select class="sp-task-target" title="Who is the task for?"></select>';
+            subTaskText += '<div class="sp-task-completedBy"><span class="sp-task-completedBy-value"></span></div>';
+            subTaskText += '<input type="text" class="sp-startDate sp-date" value="" readonly="readonly" title="start date">';
+            subTaskText += '<input type="text" class="sp-endDate sp-date" value="" readonly="readonly" title="end date">';
+            subTaskText += '</div>';
+            subTaskText += '<div class="sp-task-subTasks"></div>';
+            subTaskText += '</div>';
+            $(this).closest('.sp-task-holder').find('.sp-task-subTasks').eq(0).prepend(subTaskText);
+            $(this).closest('.sp-task-holder').find('.sp-task-subTasks .sp-task-holder.newTask .sp-date').datepicker();
+        } else {
+            //user has clicked on a task with no name that hasn't been saved yet.
+        }
+    });
+    //Delete subproject
+    $(document).on('mousedown', '.sp-menu-item', function (e) {
+        if (e.which == 3) {//right mouseclick
+            if (confirm('Delete sub project?')) {
+                DeleteSubProject($(this).attr('spid'));
+            }
+        }
+    });
+    function DeleteSubProject(subProjectID) {
+        var data = {
+            SubProjectID: subProjectID,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/SubProject/Delete",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    $('.sp-menu-item[spid="' + subProjectID + '"]').fadeOut(200);
+                    $('.sp-container[spid="' + subProjectID + '"]').fadeOut(200);
+                    Saved();
+                } else {
+                    //error creating project
+                    NiceNiceAlert('Error deleting project');
+                };
+            },
+            error: function (ex) {
+                //communication error
+                NiceNiceAlert('Couldn\'t connect to the server');
+            },
+        });
+    }
+    //Save new tasks & Edit existing ones
+    $(document).on('focusout', '.sp-task-value', function (e) {
+        $this = $(this);
+        if ($this.closest('.sp-task-holder').hasClass('newTask') && $this.val() != '') {
+            //Stop user from going cray cray
+            $spTaskHolder = $(this).closest('.sp-task-holder');
+            $spTaskHolder.find('.sp-task-status').addClass('disabled');
+            $spTaskHolder.find('input').attr('disabled', 'disabled');
+            $spTaskHolder.find('.p-task-remove').addClass('disabled');
+            $spTaskHolder.find('.sp-task-createSubTask').addClass('disabled');
+            var hasParentTask = !($this.closest('.sp-task-subTasks').attr('parentid') == undefined);
+            SaveNewTask($spTaskHolder, $this.val(), $('.sp-menu-item.selectedSpMenuItem').attr('spid'), hasParentTask, hasParentTask ? $this.closest('.sp-task-subTasks').attr('parentid') : '');
+        } else {
+            if (!$this.closest('.p-task-container').hasClass('newTask')) {
+                //isn't a new task
+                EditExisitingTask($this);
+            } else {
+                //is a new task but user hasn't edited anything
+            }
+        }
+    });
+    function SaveNewTask($spTaskHolder, Title, SubProjectID, hasParentTask, parentID) {
+        var data = {
+            Title: Title,
+            SubProjectID: SubProjectID,
+            ParentTaskID: parentID,
+            HasParent: hasParentTask,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/Task/Create",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+
+                    if (hasParentTask) {
+                        $spTaskHolder.removeClass('newTask').attr('tID', a);
+                        $spTaskHolder.find('.sp-task-subTasks').attr('parentid', a);
+                    } else {
+                        $spTaskHolder.find('input').val("");
+                        InsertnewTask(Title, a);
+                    }
+                    //re-enable
+                    $spTaskHolder.find('.sp-task-status').removeClass('disabled');
+                    $spTaskHolder.find('input').removeAttr('disabled');
+                    $spTaskHolder.find('.p-task-remove').removeClass('disabled');
+                    $spTaskHolder.find('.sp-task-createSubTask').removeClass('disabled');
+                    Saved();
+                } else {
+                    //error creating project
+                    NiceAlert('Error creating task');
+                };
+            },
+            error: function (ex) {
+                //communication error
+                NiceAlert('Error creating task');
+            },
+        });
+
+    }
+    function InsertnewTask(Title, ID) {
+        var newTask = '<div class="sp-task-holder" tid="' + ID + '">';
+        newTask += '<div class="sp-task" depth="0">';
+        newTask += '<div class="sp-task-status sp-task-status-incomplete" title="status"></div>';
+        newTask += '<div class="sp-task-createSubTask" title="create sub task">+</div>';
+        newTask += '<input type="text" class="sp-task-value" value="' + Title + '"><div class="sp-task-remove" title="delete task">x</div>';
+        newTask += '<select class="sp-task-target" title="Who is the task for?">' + $('#currentUsersOptions').val() + '</select>';
+        newTask += '<div class="sp-task-completedBy"><span class="sp-task-completedBy-value"></span></div>';
+        newTask += '<input type="text" class="sp-startDate sp-date" value="" readonly="readonly" title="start date">';
+        newTask += '<input type="text" class="sp-endDate sp-date" value="" readonly="readonly" title="end date">';
+        newTask += '</div>';
+        newTask += '<div class="sp-task-subTasks" parentid="' + ID + '"></div>';
+        newTask += '</div>';
+        $('.sp-task-holder').eq(0).after(newTask);
+        $('.sp-task-holder').eq(1).find('.sp-date').datepicker();
+    }
+    function EditExisitingTask($this) {
+        var data = {
+            TaskID: $this.closest('.sp-task-holder').attr('tid'),
+            Title: $this.val(),
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/Task/Edit",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    //If success,
+                    Saved();
+                } else {
+                    //error creating project
+                    NiceAlert('Error editing task');
+                };
+            },
+            error: function (ex) {
+                //communication error
+                NiceAlert('Error editing task');
+            },
+        });
+    }
+    //Delete tasks
+    $(document).on('click', '.sp-task-remove', function (e) {
+        if (!$(this).hasClass('disabled')) {
+            $spTaskHolder = $(this).closest('.sp-task-holder');
+            var okToContinue = false;
+            if ($spTaskHolder.find('.sp-task-subTasks').children().length > 0) {
+                if (confirm("This will delete all subtasks")) {
+                    okToContinue = true;
+                } else {
+                    //user doesn't want to delete this task because it will delete all subtasks
+                }
+            } else {
+                okToContinue = true;
+            }
+            if (okToContinue) {
+                //Prevent user from doing anything crazy
+                $spTaskHolder.find('.sp-task-remove').addClass('disabled');
+
+                $spTaskHolder.find('input').attr('disabled', 'disabled');
+                $spTaskHolder.find('.sp-task-status').addClass('disabled');
+                //Now delete it
+                DeleteTask($spTaskHolder);
+            }
+        } else {
+            //shit's already going on... 
+        }
+    });
+    function DeleteTask($spTaskHolder) {
+        //Delete the task
+        var data = {
+            TaskID: $spTaskHolder.attr('tid'),
+            SubProjectID : $('.sp-menu-item.selectedSpMenuItem').attr('spid'),
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/Task/Delete",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a) {
+                    //If success, remove it
+                    $spTaskHolder.fadeOut(200, function () { $(this).remove() });
+                    Saved();
+                } else {
+                    //error creating project
+                    $spTaskHolder.find('.sp-task-remove').removeClass('disabled');
+                    $spTaskHolder.find('input').removeAttr('disabled');
+                    $spTaskHolder.find('.sp-task-status').removeClass('disabled');
+                    NiceAlert('Error deleting task - try reloading the page');
+                };
+            },
+            error: function (ex) {
+                $spTaskHolder.find('.sp-task-remove').removeClass('disabled');
+                $spTaskHolder.find('input').removeAttr('disabled');
+                $spTaskHolder.find('.sp-task-status').removeClass('disabled');
+                NiceAlert('communication error - try reloading the page');
+            },
+        });
+
+    }
+    //from workspace--------------------------------------------------------
+    //Share project with other users
+    $(document).on('click', '.p-share-create-confirm', function (e) {
+        $pShareCreate = $('.p-share-create');
+        ShareWithAntherUser($pShareCreate.attr('name'), $pShareCreate.attr('id'), $('.p-title').attr('pid'))
+    });
+    function ShareWithAntherUser(Name, userID, projectID) {
+        $('.p-share-create-confirm').attr('disabled', 'disabled').val('adding');
+        var data = {
+            projectID: projectID,
+            userID: userID,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            url: "/Project/AddUserToProject",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: dataToPost,
+            success: function (a) {
+                var shareText = '<div class="p-share" uid=' + userID + '>';
+                shareText += '<div class="p-shared-title">' + Name + '</div>';
+                shareText += '<div class="p-shared-unshare">x</div>';
+                shareText += '</div>';
+                $('.p-share-popup').append(shareText);
+                $('.p-share-create').val('').removeAttr('name').removeAttr('name');
+                $('.p-share-create-confirm').val('add');
+
+            }
+        });
+    }
+    //Unshare project with other users
+    $(document).on('click', '.p-shared-unshare', function (e) {
+        $this = $(this);
+        //Make changes, if successful:
+        var data = {
+            projectID: $('.p-title').attr('pid'),
+            userID: $this.closest('.p-share').attr('uid'),
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            url: "/Project/RemoveUserFromProject",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: dataToPost,
+            success: function (a) {
+                $this.closest('.p-share').fadeOut(200, function () { $this.remove() });
+
+            }
+        });
+
+
+    });
+    $(document).on('mouseenter', '.sp-menu-item', function (e) {
+        $(this).find('.sp-menu-prog.ui-progressbar').addClass('progBarHover');
+    });//sub project menu hover effect
+    $(document).on('mouseleave', '.sp-menu-item', function (e) {
+        $(this).find('.sp-menu-prog.ui-progressbar').removeClass('progBarHover');
+    });//sub project menu hover effect
+    $(document).on('click', '.sp-menu-item', function (e) {
+        //change it's formatting
+        $('.selectedSpMenuItem').removeClass('selectedSpMenuItem');
+        var $this = $(this);
+        $this.addClass('selectedSpMenuItem');
+        //show the subproject in the workspace
+        var spid = $this.attr('spid');
+        $('.sp-container:not(.invisible)').addClass('invisible');//hide all
+        $('.sp-container[spid="' + spid + '"]').removeClass('invisible');//show this one
+        //Check if has any notifications and change them to seen 
+        if ($this.find('.sp-not').length > 0) {
+            //has notifications
+            NotificationSeen($this.attr('spid'), $($this.find('.sp-not')), 'task')
+        } else {
+            //doesn't have a notification
+        };
+    });//sub project menu click
+
+    $(document).on('mouseenter', '.pSB-p', function (e) {
+        $(this).find('.pSB-p-prog.ui-progressbar').addClass('progBarHover');
+    });//project menu hover effect
+    $(document).on('mouseleave', '.pSB-p', function (e) {
+        $(this).find('.pSB-p-prog.ui-progressbar').removeClass('progBarHover');
+    });//project menu hover effect
+    $(document).on('click', '.pSB-p', function (e) {
+        //change it's formatting
+        $('.selectedPMenuItem').removeClass('selectedPMenuItem');
+        var $this = $(this);
+        $this.addClass('selectedPMenuItem');
+
+    });//project menu click
+    function NotificationSeen(spid, $notification, elementType) {
+        var data = {
+            ElementID: spid,
+            ElementType: elementType,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            url: "/Notification/Seen",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: dataToPost,
+            success: function (a) {
+                if (a) {
+                    $notification.fadeOut(1000);
+                } else {
+                    NiceError("server error");
+                }
+            },
+            error: function (a) {
+                NiceError("error contacting server");
+            }
+        });
+    }
+    $(document).on('click', '.sp-task-status', function () {
+        var $this = $(this);
+        if (!$this.hasClass('disabled')) {
+            if ($this.hasClass('sp-task-status-incomplete')) {
+                $this.removeClass('sp-task-status-incomplete');
+                $this.addClass('sp-task-status-complete');
+                $this.closest('.sp-task').find('.sp-task-value').addClass('complete');
+                SaveToggleChange($this.closest('.sp-task-holder').attr('tid'), 1);
+                return;
+            } else {
+                if ($this.hasClass('sp-task-status-complete')) {
+                    $this.removeClass('sp-task-status-complete');
+                    $this.addClass('sp-task-status-active');
+                    $this.closest('.sp-task').find('.sp-task-value').removeClass('complete');
+                    SaveToggleChange($this.closest('.sp-task-holder').attr('tid'), 2);
+                    return;
+                } else {
+                    if ($this.hasClass('sp-task-status-active')) {
+                        $this.removeClass('sp-task-status-active');
+                        $this.addClass('sp-task-status-incomplete');
+                        //$this.closest('.sp-task').find('.sp-task-value').removeClass('complete');
+                        SaveToggleChange($this.closest('.sp-task-holder').attr('tid'), 0);
+                        return;
+                    };
+                }
+            }
+
+        }
+    });//toggle effect for task status
+    function SaveToggleChange(taskID, status) {
+        var data = {
+            TaskID: taskID,
+            Status: status,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            url: "/Task/ToggleComplete",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: dataToPost,
+            success: function (a) {
+                if (a) {
+                    //Saved();
+                } else {
+                    NiceError("server error");
+                }
+            },
+            error: function (a) {
+                NiceError("error contacting server");
+            }
+        });
+    }
+
+</script>
+
+<div id="projectSideBar">
+    @foreach (Project proj in Model)
+    {
+        <div class="pSB-p" pID="@proj.ID" percentcomplete="@(proj.PercentComplete ?? 0)" title="@Html.Raw(String.Format("{0} {1}% complete", proj.Title, (proj.PercentComplete ?? 0)))">
+            <div class="pSB-p-title">@proj.Title</div>
+            <div class="pSB-p-prog"></div>
+        </div>
+    }
+    <div class="pSB-p-createNew">
+        new
+    </div>
+</div>
+
+<div class="w">
+    @if (Model.Count() > 0)
+    {
+        @Html.Partial("Workspace", Model.First())
+    }
+    else
+    {
+        //No projects defined, tough.
+    }
+</div>

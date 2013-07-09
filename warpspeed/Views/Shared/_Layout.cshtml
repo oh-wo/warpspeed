@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+   <link href="~/Content/Site.css" rel="stylesheet" />
+     <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Play:400,700|Archivo+Black' rel='stylesheet' type='text/css'>
+    <style>
+        #saved {
+position: absolute;
+z-index: 1;
+background-color: #000;
+right: 5%;
+color: #fff;
+padding-left: 10px;
+padding-right: 10px;
+padding-bottom: 2px;
+}
+        #NiceError {
+position: absolute;
+z-index: 1;
+background-color: #000;
+right: 5%;
+color: #fff;
+padding-left: 10px;
+padding-right: 10px;
+padding-bottom: 2px;
+}
+        
+    </style>
+    <script>
+        function Saved() {
+            $('#saved').fadeIn(200, function () { setTimeout(function () { $('#saved').fadeOut(500) },500) });
+        }
+        function NiceError(message) {
+            $('#NiceError').text(message).fadeIn(200, function () { setTimeout(function () { $('#NiceError').fadeOut(500) }, 500) });
+        }
+    </script>
+</head>
+<body>
+    <div id="saved" style="display:none;">saved</div>
+    <div id="NiceError" style="display:none;"></div>
+    @RenderBody()
+   <script type="text/javascript">
+       setTimeout(function () {
+           var a = document.createElement("script");
+           var b = document.getElementsByTagName("script")[0];
+           a.src = document.location.protocol + "//dnn506yrbagrg.cloudfront.net/pages/scripts/0013/3952.js?" + Math.floor(new Date().getTime() / 3600000);
+           a.async = true; a.type = "text/javascript"; b.parentNode.insertBefore(a, b)
+       }, 1);
+</script>
+
+</body>
+</html>

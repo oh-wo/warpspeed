@@ -1,0 +1,648 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="warpspeedModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="warpspeedEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Groups" EntityType="warpspeedModel.Group" />
+    <EntitySet Name="NotificationSeens" EntityType="warpspeedModel.NotificationSeen" />
+    <EntitySet Name="NotificationTypes" EntityType="warpspeedModel.NotificationType" />
+    <EntitySet Name="Privileges" EntityType="warpspeedModel.Privilege" />
+    <EntitySet Name="Projects" EntityType="warpspeedModel.Project" />
+    <EntitySet Name="ProjectNotifications" EntityType="warpspeedModel.ProjectNotification" />
+    <EntitySet Name="SubProjects" EntityType="warpspeedModel.SubProject" />
+    <EntitySet Name="SubProjectNotifcations" EntityType="warpspeedModel.SubProjectNotifcation" />
+    <EntitySet Name="Tasks" EntityType="warpspeedModel.Task" />
+    <EntitySet Name="TaskNotifcations" EntityType="warpspeedModel.TaskNotifcation" />
+    <EntitySet Name="Types" EntityType="warpspeedModel.Type" />
+    <EntitySet Name="WUsers" EntityType="warpspeedModel.WUser" />
+    <EntitySet Name="WUserProjects" EntityType="warpspeedModel.WUserProject" />
+    <EntitySet Name="WUserSubprojects" EntityType="warpspeedModel.WUserSubproject" />
+    <AssociationSet Name="FK__Notificat__Proje__75A278F5" Association="warpspeedModel.FK__Notificat__Proje__75A278F5">
+      <End Role="ProjectNotification" EntitySet="ProjectNotifications" />
+      <End Role="NotificationSeen" EntitySet="NotificationSeens" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Notificat__SubPr__76969D2E" Association="warpspeedModel.FK__Notificat__SubPr__76969D2E">
+      <End Role="SubProjectNotifcation" EntitySet="SubProjectNotifcations" />
+      <End Role="NotificationSeen" EntitySet="NotificationSeens" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Notificat__TaskN__74AE54BC" Association="warpspeedModel.FK__Notificat__TaskN__74AE54BC">
+      <End Role="TaskNotifcation" EntitySet="TaskNotifcations" />
+      <End Role="NotificationSeen" EntitySet="NotificationSeens" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Notificat__WUser__73BA3083" Association="warpspeedModel.FK__Notificat__WUser__73BA3083">
+      <End Role="WUser" EntitySet="WUsers" />
+      <End Role="NotificationSeen" EntitySet="NotificationSeens" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ProjectNo__TypeI__5AEE82B9" Association="warpspeedModel.FK__ProjectNo__TypeI__5AEE82B9">
+      <End Role="NotificationType" EntitySet="NotificationTypes" />
+      <End Role="ProjectNotification" EntitySet="ProjectNotifications" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SubProjec__TypeI__619B8048" Association="warpspeedModel.FK__SubProjec__TypeI__619B8048">
+      <End Role="NotificationType" EntitySet="NotificationTypes" />
+      <End Role="SubProjectNotifcation" EntitySet="SubProjectNotifcations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TaskNotif__TypeI__68487DD7" Association="warpspeedModel.FK__TaskNotif__TypeI__68487DD7">
+      <End Role="NotificationType" EntitySet="NotificationTypes" />
+      <End Role="TaskNotifcation" EntitySet="TaskNotifcations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__WUserProj__Privi__0F975522" Association="warpspeedModel.FK__WUserProj__Privi__0F975522">
+      <End Role="Privilege" EntitySet="Privileges" />
+      <End Role="WUserProject" EntitySet="WUserProjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__WUserSubp__Privi__34C8D9D1" Association="warpspeedModel.FK__WUserSubp__Privi__34C8D9D1">
+      <End Role="Privilege" EntitySet="Privileges" />
+      <End Role="WUserSubproject" EntitySet="WUserSubprojects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Project__Created__0519C6AF" Association="warpspeedModel.FK__Project__Created__0519C6AF">
+      <End Role="WUser" EntitySet="WUsers" />
+      <End Role="Project" EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ProjectNo__Proje__59063A47" Association="warpspeedModel.FK__ProjectNo__Proje__59063A47">
+      <End Role="Project" EntitySet="Projects" />
+      <End Role="ProjectNotification" EntitySet="ProjectNotifications" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SubProjec__Proje__267ABA7A" Association="warpspeedModel.FK__SubProjec__Proje__267ABA7A">
+      <End Role="Project" EntitySet="Projects" />
+      <End Role="SubProject" EntitySet="SubProjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__WUserProj__Proje__0EA330E9" Association="warpspeedModel.FK__WUserProj__Proje__0EA330E9">
+      <End Role="Project" EntitySet="Projects" />
+      <End Role="WUserProject" EntitySet="WUserProjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ProjectNo__WUser__59FA5E80" Association="warpspeedModel.FK__ProjectNo__WUser__59FA5E80">
+      <End Role="WUser" EntitySet="WUsers" />
+      <End Role="ProjectNotification" EntitySet="ProjectNotifications" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SubProjec__Creat__286302EC" Association="warpspeedModel.FK__SubProjec__Creat__286302EC">
+      <End Role="WUser" EntitySet="WUsers" />
+      <End Role="SubProject" EntitySet="SubProjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SubProjec__SubPr__5FB337D6" Association="warpspeedModel.FK__SubProjec__SubPr__5FB337D6">
+      <End Role="SubProject" EntitySet="SubProjects" />
+      <End Role="SubProjectNotifcation" EntitySet="SubProjectNotifcations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SubProjec__TypeI__276EDEB3" Association="warpspeedModel.FK__SubProjec__TypeI__276EDEB3">
+      <End Role="Type" EntitySet="Types" />
+      <End Role="SubProject" EntitySet="SubProjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Task__SubProject__2D27B809" Association="warpspeedModel.FK__Task__SubProject__2D27B809">
+      <End Role="SubProject" EntitySet="SubProjects" />
+      <End Role="Task" EntitySet="Tasks" />
+    </AssociationSet>
+    <AssociationSet Name="FK__WUserSubp__Subpr__33D4B598" Association="warpspeedModel.FK__WUserSubp__Subpr__33D4B598">
+      <End Role="SubProject" EntitySet="SubProjects" />
+      <End Role="WUserSubproject" EntitySet="WUserSubprojects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SubProjec__WUser__60A75C0F" Association="warpspeedModel.FK__SubProjec__WUser__60A75C0F">
+      <End Role="WUser" EntitySet="WUsers" />
+      <End Role="SubProjectNotifcation" EntitySet="SubProjectNotifcations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Task__CreatedID__2E1BDC42" Association="warpspeedModel.FK__Task__CreatedID__2E1BDC42">
+      <End Role="WUser" EntitySet="WUsers" />
+      <End Role="Task" EntitySet="Tasks" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TaskNotif__TaskI__66603565" Association="warpspeedModel.FK__TaskNotif__TaskI__66603565">
+      <End Role="Task" EntitySet="Tasks" />
+      <End Role="TaskNotifcation" EntitySet="TaskNotifcations" />
+    </AssociationSet>
+    <AssociationSet Name="fk_TaskID_ParentTaskID" Association="warpspeedModel.fk_TaskID_ParentTaskID">
+      <End Role="Task" EntitySet="Tasks" />
+      <End Role="Task1" EntitySet="Tasks" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TaskNotif__WUser__6754599E" Association="warpspeedModel.FK__TaskNotif__WUser__6754599E">
+      <End Role="WUser" EntitySet="WUsers" />
+      <End Role="TaskNotifcation" EntitySet="TaskNotifcations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__WUserProj__WUser__0DAF0CB0" Association="warpspeedModel.FK__WUserProj__WUser__0DAF0CB0">
+      <End Role="WUser" EntitySet="WUsers" />
+      <End Role="WUserProject" EntitySet="WUserProjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__WUserSubp__WUser__32E0915F" Association="warpspeedModel.FK__WUserSubp__WUser__32E0915F">
+      <End Role="WUser" EntitySet="WUsers" />
+      <End Role="WUserSubproject" EntitySet="WUserSubprojects" />
+    </AssociationSet>
+    <AssociationSet Name="WUserGroups" Association="warpspeedModel.WUserGroups">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="WUser" EntitySet="WUsers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Guid" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Title" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="WUsers" Relationship="warpspeedModel.WUserGroups" FromRole="Group" ToRole="WUser" />
+  </EntityType>
+  <EntityType Name="NotificationSeen">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Guid" Name="ID" Nullable="false" />
+    <Property Type="Guid" Name="WUserID" />
+    <Property Type="Guid" Name="TaskNotificationID" />
+    <Property Type="Guid" Name="ProjectNotificationID" />
+    <Property Type="Guid" Name="SubProjectNotificationID" />
+    <NavigationProperty Name="ProjectNotification" Relationship="warpspeedModel.FK__Notificat__Proje__75A278F5" FromRole="NotificationSeen" ToRole="ProjectNotification" />
+    <NavigationProperty Name="SubProjectNotifcation" Relationship="warpspeedModel.FK__Notificat__SubPr__76969D2E" FromRole="NotificationSeen" ToRole="SubProjectNotifcation" />
+    <NavigationProperty Name="TaskNotifcation" Relationship="warpspeedModel.FK__Notificat__TaskN__74AE54BC" FromRole="NotificationSeen" ToRole="TaskNotifcation" />
+    <NavigationProperty Name="WUser" Relationship="warpspeedModel.FK__Notificat__WUser__73BA3083" FromRole="NotificationSeen" ToRole="WUser" />
+  </EntityType>
+  <EntityType Name="NotificationType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Title" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ProjectNotifications" Relationship="warpspeedModel.FK__ProjectNo__TypeI__5AEE82B9" FromRole="NotificationType" ToRole="ProjectNotification" />
+    <NavigationProperty Name="SubProjectNotifcations" Relationship="warpspeedModel.FK__SubProjec__TypeI__619B8048" FromRole="NotificationType" ToRole="SubProjectNotifcation" />
+    <NavigationProperty Name="TaskNotifcations" Relationship="warpspeedModel.FK__TaskNotif__TypeI__68487DD7" FromRole="NotificationType" ToRole="TaskNotifcation" />
+  </EntityType>
+  <EntityType Name="Privilege">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Guid" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Title" MaxLength="150" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="WUserProjects" Relationship="warpspeedModel.FK__WUserProj__Privi__0F975522" FromRole="Privilege" ToRole="WUserProject" />
+    <NavigationProperty Name="WUserSubprojects" Relationship="warpspeedModel.FK__WUserSubp__Privi__34C8D9D1" FromRole="Privilege" ToRole="WUserSubproject" />
+  </EntityType>
+  <EntityType Name="Project">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Guid" Name="ID" Nullable="false" />
+    <Property Type="DateTime" Name="StartDate" Precision="7" />
+    <Property Type="DateTime" Name="EndDate" Precision="7" />
+    <Property Type="Int32" Name="PercentComplete" />
+    <Property Type="String" Name="Title" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="Guid" Name="CreatedByID" />
+    <Property Type="Boolean" Name="Deleted" />
+    <NavigationProperty Name="WUser" Relationship="warpspeedModel.FK__Project__Created__0519C6AF" FromRole="Project" ToRole="WUser" />
+    <NavigationProperty Name="ProjectNotifications" Relationship="warpspeedModel.FK__ProjectNo__Proje__59063A47" FromRole="Project" ToRole="ProjectNotification" />
+    <NavigationProperty Name="SubProjects" Relationship="warpspeedModel.FK__SubProjec__Proje__267ABA7A" FromRole="Project" ToRole="SubProject" />
+    <NavigationProperty Name="WUserProjects" Relationship="warpspeedModel.FK__WUserProj__Proje__0EA330E9" FromRole="Project" ToRole="WUserProject" />
+  </EntityType>
+  <EntityType Name="ProjectNotification">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Guid" Name="ID" Nullable="false" />
+    <Property Type="Guid" Name="ProjectID" />
+    <Property Type="Guid" Name="WUserID" />
+    <Property Type="Int32" Name="TypeID" />
+    <Property Type="DateTime" Name="Created" Precision="7" />
+    <NavigationProperty Name="NotificationSeens" Relationship="warpspeedModel.FK__Notificat__Proje__75A278F5" FromRole="ProjectNotification" ToRole="NotificationSeen" />
+    <NavigationProperty Name="NotificationType" Relationship="warpspeedModel.FK__ProjectNo__TypeI__5AEE82B9" FromRole="ProjectNotification" ToRole="NotificationType" />
+    <NavigationProperty Name="Project" Relationship="warpspeedModel.FK__ProjectNo__Proje__59063A47" FromRole="ProjectNotification" ToRole="Project" />
+    <NavigationProperty Name="WUser" Relationship="warpspeedModel.FK__ProjectNo__WUser__59FA5E80" FromRole="ProjectNotification" ToRole="WUser" />
+  </EntityType>
+  <EntityType Name="SubProject">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Guid" Name="ID" Nullable="false" />
+    <Property Type="Guid" Name="ProjectID" />
+    <Property Type="Guid" Name="TypeID" />
+    <Property Type="String" Name="Title" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="StartDate" Precision="7" />
+    <Property Type="DateTime" Name="EndDate" Precision="7" />
+    <Property Type="DateTime" Name="Created" Precision="7" />
+    <Property Type="Guid" Name="CreatedID" />
+    <Property Type="Int32" Name="PercentComplete" />
+    <NavigationProperty Name="Project" Relationship="warpspeedModel.FK__SubProjec__Proje__267ABA7A" FromRole="SubProject" ToRole="Project" />
+    <NavigationProperty Name="WUser" Relationship="warpspeedModel.FK__SubProjec__Creat__286302EC" FromRole="SubProject" ToRole="WUser" />
+    <NavigationProperty Name="SubProjectNotifcations" Relationship="warpspeedModel.FK__SubProjec__SubPr__5FB337D6" FromRole="SubProject" ToRole="SubProjectNotifcation" />
+    <NavigationProperty Name="Type" Relationship="warpspeedModel.FK__SubProjec__TypeI__276EDEB3" FromRole="SubProject" ToRole="Type" />
+    <NavigationProperty Name="Tasks" Relationship="warpspeedModel.FK__Task__SubProject__2D27B809" FromRole="SubProject" ToRole="Task" />
+    <NavigationProperty Name="WUserSubprojects" Relationship="warpspeedModel.FK__WUserSubp__Subpr__33D4B598" FromRole="SubProject" ToRole="WUserSubproject" />
+  </EntityType>
+  <EntityType Name="SubProjectNotifcation">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Guid" Name="ID" Nullable="false" />
+    <Property Type="Guid" Name="SubProjectID" />
+    <Property Type="Guid" Name="WUserID" />
+    <Property Type="Int32" Name="TypeID" />
+    <Property Type="DateTime" Name="Created" Precision="7" />
+    <NavigationProperty Name="NotificationSeens" Relationship="warpspeedModel.FK__Notificat__SubPr__76969D2E" FromRole="SubProjectNotifcation" ToRole="NotificationSeen" />
+    <NavigationProperty Name="NotificationType" Relationship="warpspeedModel.FK__SubProjec__TypeI__619B8048" FromRole="SubProjectNotifcation" ToRole="NotificationType" />
+    <NavigationProperty Name="SubProject" Relationship="warpspeedModel.FK__SubProjec__SubPr__5FB337D6" FromRole="SubProjectNotifcation" ToRole="SubProject" />
+    <NavigationProperty Name="WUser" Relationship="warpspeedModel.FK__SubProjec__WUser__60A75C0F" FromRole="SubProjectNotifcation" ToRole="WUser" />
+  </EntityType>
+  <EntityType Name="Task">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Guid" Name="ID" Nullable="false" />
+    <Property Type="Guid" Name="SubProjectID" />
+    <Property Type="String" Name="Title" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="Created" Precision="7" />
+    <Property Type="Guid" Name="CreatedID" />
+    <Property Type="Guid" Name="TargetUserID" />
+    <Property Type="DateTime" Name="CompletedDate" Precision="7" />
+    <Property Type="DateTime" Name="StartDate" Precision="7" />
+    <Property Type="DateTime" Name="EndDate" Precision="7" />
+    <Property Type="Int32" Name="Status" />
+    <Property Type="Guid" Name="ParentTaskID" />
+    <NavigationProperty Name="SubProject" Relationship="warpspeedModel.FK__Task__SubProject__2D27B809" FromRole="Task" ToRole="SubProject" />
+    <NavigationProperty Name="WUser" Relationship="warpspeedModel.FK__Task__CreatedID__2E1BDC42" FromRole="Task" ToRole="WUser" />
+    <NavigationProperty Name="TaskNotifcations" Relationship="warpspeedModel.FK__TaskNotif__TaskI__66603565" FromRole="Task" ToRole="TaskNotifcation" />
+    <NavigationProperty Name="Task1" Relationship="warpspeedModel.fk_TaskID_ParentTaskID" FromRole="Task" ToRole="Task1" />
+    <NavigationProperty Name="Task2" Relationship="warpspeedModel.fk_TaskID_ParentTaskID" FromRole="Task1" ToRole="Task" />
+  </EntityType>
+  <EntityType Name="TaskNotifcation">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Guid" Name="ID" Nullable="false" />
+    <Property Type="Guid" Name="TaskID" />
+    <Property Type="Guid" Name="WUserID" />
+    <Property Type="Int32" Name="TypeID" />
+    <Property Type="DateTime" Name="Created" Precision="7" />
+    <NavigationProperty Name="NotificationSeens" Relationship="warpspeedModel.FK__Notificat__TaskN__74AE54BC" FromRole="TaskNotifcation" ToRole="NotificationSeen" />
+    <NavigationProperty Name="NotificationType" Relationship="warpspeedModel.FK__TaskNotif__TypeI__68487DD7" FromRole="TaskNotifcation" ToRole="NotificationType" />
+    <NavigationProperty Name="Task" Relationship="warpspeedModel.FK__TaskNotif__TaskI__66603565" FromRole="TaskNotifcation" ToRole="Task" />
+    <NavigationProperty Name="WUser" Relationship="warpspeedModel.FK__TaskNotif__WUser__6754599E" FromRole="TaskNotifcation" ToRole="WUser" />
+  </EntityType>
+  <EntityType Name="Type">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Guid" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Title" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SubProjects" Relationship="warpspeedModel.FK__SubProjec__TypeI__276EDEB3" FromRole="Type" ToRole="SubProject" />
+  </EntityType>
+  <EntityType Name="WUser">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Guid" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Email" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="FirstName" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="LastName" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Password" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="LastActivityDate" Precision="7" />
+    <Property Type="String" Name="PasswordQuestion" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PasswordAnswer" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="Guid" Name="EmailCode" />
+    <Property Type="Boolean" Name="EmailVerified" />
+    <Property Type="String" Name="MobileNumber" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="IsApproved" />
+    <Property Type="DateTime" Name="Created" Precision="7" />
+    <Property Type="DateTime" Name="LastLoginDate" Precision="7" />
+    <Property Type="DateTime" Name="LastPasswordChangeDate" Precision="7" />
+    <Property Type="Int32" Name="FailedPasswordAttemptCount" />
+    <Property Type="Int32" Name="FailedPasswordAnswerAttemptCount" />
+    <NavigationProperty Name="NotificationSeens" Relationship="warpspeedModel.FK__Notificat__WUser__73BA3083" FromRole="WUser" ToRole="NotificationSeen" />
+    <NavigationProperty Name="Projects" Relationship="warpspeedModel.FK__Project__Created__0519C6AF" FromRole="WUser" ToRole="Project" />
+    <NavigationProperty Name="ProjectNotifications" Relationship="warpspeedModel.FK__ProjectNo__WUser__59FA5E80" FromRole="WUser" ToRole="ProjectNotification" />
+    <NavigationProperty Name="SubProjects" Relationship="warpspeedModel.FK__SubProjec__Creat__286302EC" FromRole="WUser" ToRole="SubProject" />
+    <NavigationProperty Name="SubProjectNotifcations" Relationship="warpspeedModel.FK__SubProjec__WUser__60A75C0F" FromRole="WUser" ToRole="SubProjectNotifcation" />
+    <NavigationProperty Name="Tasks" Relationship="warpspeedModel.FK__Task__CreatedID__2E1BDC42" FromRole="WUser" ToRole="Task" />
+    <NavigationProperty Name="TaskNotifcations" Relationship="warpspeedModel.FK__TaskNotif__WUser__6754599E" FromRole="WUser" ToRole="TaskNotifcation" />
+    <NavigationProperty Name="WUserProjects" Relationship="warpspeedModel.FK__WUserProj__WUser__0DAF0CB0" FromRole="WUser" ToRole="WUserProject" />
+    <NavigationProperty Name="WUserSubprojects" Relationship="warpspeedModel.FK__WUserSubp__WUser__32E0915F" FromRole="WUser" ToRole="WUserSubproject" />
+    <NavigationProperty Name="Groups" Relationship="warpspeedModel.WUserGroups" FromRole="WUser" ToRole="Group" />
+  </EntityType>
+  <EntityType Name="WUserProject">
+    <Key>
+      <PropertyRef Name="WUserID" />
+      <PropertyRef Name="ProjectID" />
+    </Key>
+    <Property Type="Guid" Name="WUserID" Nullable="false" />
+    <Property Type="Guid" Name="ProjectID" Nullable="false" />
+    <Property Type="Guid" Name="PrivilegeID" />
+    <NavigationProperty Name="Privilege" Relationship="warpspeedModel.FK__WUserProj__Privi__0F975522" FromRole="WUserProject" ToRole="Privilege" />
+    <NavigationProperty Name="Project" Relationship="warpspeedModel.FK__WUserProj__Proje__0EA330E9" FromRole="WUserProject" ToRole="Project" />
+    <NavigationProperty Name="WUser" Relationship="warpspeedModel.FK__WUserProj__WUser__0DAF0CB0" FromRole="WUserProject" ToRole="WUser" />
+  </EntityType>
+  <EntityType Name="WUserSubproject">
+    <Key>
+      <PropertyRef Name="WUserID" />
+      <PropertyRef Name="SubprojectID" />
+      <PropertyRef Name="PrivilegeID" />
+    </Key>
+    <Property Type="Guid" Name="WUserID" Nullable="false" />
+    <Property Type="Guid" Name="SubprojectID" Nullable="false" />
+    <Property Type="Guid" Name="PrivilegeID" Nullable="false" />
+    <NavigationProperty Name="Privilege" Relationship="warpspeedModel.FK__WUserSubp__Privi__34C8D9D1" FromRole="WUserSubproject" ToRole="Privilege" />
+    <NavigationProperty Name="SubProject" Relationship="warpspeedModel.FK__WUserSubp__Subpr__33D4B598" FromRole="WUserSubproject" ToRole="SubProject" />
+    <NavigationProperty Name="WUser" Relationship="warpspeedModel.FK__WUserSubp__WUser__32E0915F" FromRole="WUserSubproject" ToRole="WUser" />
+  </EntityType>
+  <Association Name="FK__Notificat__Proje__75A278F5">
+    <End Type="warpspeedModel.ProjectNotification" Role="ProjectNotification" Multiplicity="0..1" />
+    <End Type="warpspeedModel.NotificationSeen" Role="NotificationSeen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectNotification">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NotificationSeen">
+        <PropertyRef Name="ProjectNotificationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Notificat__SubPr__76969D2E">
+    <End Type="warpspeedModel.SubProjectNotifcation" Role="SubProjectNotifcation" Multiplicity="0..1" />
+    <End Type="warpspeedModel.NotificationSeen" Role="NotificationSeen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubProjectNotifcation">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NotificationSeen">
+        <PropertyRef Name="SubProjectNotificationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Notificat__TaskN__74AE54BC">
+    <End Type="warpspeedModel.TaskNotifcation" Role="TaskNotifcation" Multiplicity="0..1" />
+    <End Type="warpspeedModel.NotificationSeen" Role="NotificationSeen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaskNotifcation">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NotificationSeen">
+        <PropertyRef Name="TaskNotificationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Notificat__WUser__73BA3083">
+    <End Type="warpspeedModel.WUser" Role="WUser" Multiplicity="0..1" />
+    <End Type="warpspeedModel.NotificationSeen" Role="NotificationSeen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NotificationSeen">
+        <PropertyRef Name="WUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ProjectNo__TypeI__5AEE82B9">
+    <End Type="warpspeedModel.NotificationType" Role="NotificationType" Multiplicity="0..1" />
+    <End Type="warpspeedModel.ProjectNotification" Role="ProjectNotification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NotificationType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProjectNotification">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SubProjec__TypeI__619B8048">
+    <End Type="warpspeedModel.NotificationType" Role="NotificationType" Multiplicity="0..1" />
+    <End Type="warpspeedModel.SubProjectNotifcation" Role="SubProjectNotifcation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NotificationType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SubProjectNotifcation">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TaskNotif__TypeI__68487DD7">
+    <End Type="warpspeedModel.NotificationType" Role="NotificationType" Multiplicity="0..1" />
+    <End Type="warpspeedModel.TaskNotifcation" Role="TaskNotifcation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NotificationType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TaskNotifcation">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__WUserProj__Privi__0F975522">
+    <End Type="warpspeedModel.Privilege" Role="Privilege" Multiplicity="0..1" />
+    <End Type="warpspeedModel.WUserProject" Role="WUserProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Privilege">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WUserProject">
+        <PropertyRef Name="PrivilegeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__WUserSubp__Privi__34C8D9D1">
+    <End Type="warpspeedModel.Privilege" Role="Privilege" Multiplicity="1" />
+    <End Type="warpspeedModel.WUserSubproject" Role="WUserSubproject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Privilege">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WUserSubproject">
+        <PropertyRef Name="PrivilegeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Project__Created__0519C6AF">
+    <End Type="warpspeedModel.WUser" Role="WUser" Multiplicity="0..1" />
+    <End Type="warpspeedModel.Project" Role="Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Project">
+        <PropertyRef Name="CreatedByID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ProjectNo__Proje__59063A47">
+    <End Type="warpspeedModel.Project" Role="Project" Multiplicity="0..1" />
+    <End Type="warpspeedModel.ProjectNotification" Role="ProjectNotification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProjectNotification">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SubProjec__Proje__267ABA7A">
+    <End Type="warpspeedModel.Project" Role="Project" Multiplicity="0..1" />
+    <End Type="warpspeedModel.SubProject" Role="SubProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SubProject">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__WUserProj__Proje__0EA330E9">
+    <End Type="warpspeedModel.Project" Role="Project" Multiplicity="1" />
+    <End Type="warpspeedModel.WUserProject" Role="WUserProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WUserProject">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ProjectNo__WUser__59FA5E80">
+    <End Type="warpspeedModel.WUser" Role="WUser" Multiplicity="0..1" />
+    <End Type="warpspeedModel.ProjectNotification" Role="ProjectNotification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProjectNotification">
+        <PropertyRef Name="WUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SubProjec__Creat__286302EC">
+    <End Type="warpspeedModel.WUser" Role="WUser" Multiplicity="0..1" />
+    <End Type="warpspeedModel.SubProject" Role="SubProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SubProject">
+        <PropertyRef Name="CreatedID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SubProjec__SubPr__5FB337D6">
+    <End Type="warpspeedModel.SubProject" Role="SubProject" Multiplicity="0..1" />
+    <End Type="warpspeedModel.SubProjectNotifcation" Role="SubProjectNotifcation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubProject">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SubProjectNotifcation">
+        <PropertyRef Name="SubProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SubProjec__TypeI__276EDEB3">
+    <End Type="warpspeedModel.Type" Role="Type" Multiplicity="0..1" />
+    <End Type="warpspeedModel.SubProject" Role="SubProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SubProject">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Task__SubProject__2D27B809">
+    <End Type="warpspeedModel.SubProject" Role="SubProject" Multiplicity="0..1" />
+    <End Type="warpspeedModel.Task" Role="Task" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubProject">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Task">
+        <PropertyRef Name="SubProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__WUserSubp__Subpr__33D4B598">
+    <End Type="warpspeedModel.SubProject" Role="SubProject" Multiplicity="1" />
+    <End Type="warpspeedModel.WUserSubproject" Role="WUserSubproject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubProject">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WUserSubproject">
+        <PropertyRef Name="SubprojectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SubProjec__WUser__60A75C0F">
+    <End Type="warpspeedModel.WUser" Role="WUser" Multiplicity="0..1" />
+    <End Type="warpspeedModel.SubProjectNotifcation" Role="SubProjectNotifcation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SubProjectNotifcation">
+        <PropertyRef Name="WUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Task__CreatedID__2E1BDC42">
+    <End Type="warpspeedModel.WUser" Role="WUser" Multiplicity="0..1" />
+    <End Type="warpspeedModel.Task" Role="Task" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Task">
+        <PropertyRef Name="CreatedID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TaskNotif__TaskI__66603565">
+    <End Type="warpspeedModel.Task" Role="Task" Multiplicity="0..1" />
+    <End Type="warpspeedModel.TaskNotifcation" Role="TaskNotifcation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Task">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TaskNotifcation">
+        <PropertyRef Name="TaskID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_TaskID_ParentTaskID">
+    <End Type="warpspeedModel.Task" Role="Task" Multiplicity="0..1" />
+    <End Type="warpspeedModel.Task" Role="Task1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Task">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Task1">
+        <PropertyRef Name="ParentTaskID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TaskNotif__WUser__6754599E">
+    <End Type="warpspeedModel.WUser" Role="WUser" Multiplicity="0..1" />
+    <End Type="warpspeedModel.TaskNotifcation" Role="TaskNotifcation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TaskNotifcation">
+        <PropertyRef Name="WUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__WUserProj__WUser__0DAF0CB0">
+    <End Type="warpspeedModel.WUser" Role="WUser" Multiplicity="1" />
+    <End Type="warpspeedModel.WUserProject" Role="WUserProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WUserProject">
+        <PropertyRef Name="WUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__WUserSubp__WUser__32E0915F">
+    <End Type="warpspeedModel.WUser" Role="WUser" Multiplicity="1" />
+    <End Type="warpspeedModel.WUserSubproject" Role="WUserSubproject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WUserSubproject">
+        <PropertyRef Name="WUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WUserGroups">
+    <End Type="warpspeedModel.Group" Role="Group" Multiplicity="*" />
+    <End Type="warpspeedModel.WUser" Role="WUser" Multiplicity="*" />
+  </Association>
+</Schema>

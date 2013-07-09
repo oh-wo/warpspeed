@@ -1,0 +1,648 @@
+﻿@{
+    ViewBag.Title = "WarpDriveEngaged";
+}
+@using warpspeed.Models;
+@model List<Project>
+<style>
+    .p {
+        float: left;
+        position:relative;
+    }
+
+    .p-square {
+        font-family: Arial;
+        width: 250px;
+        height: 190px;
+        padding: 5px;
+        float: left;
+        position: relative;
+        cursor:default;
+    }
+
+    .p:nth-child(5n-5) > .p-square {
+        /**/ background-color: rgb(110, 164, 132);
+    }
+
+    .p:nth-child(5n-5) > .p-content > .p-task-container > input[type="text"] {
+        border-color: rgb(110, 164, 132);
+    }
+
+    .p:nth-child(5n-4) > .p-square {
+        background-color: rgb(101, 193, 139);
+    }
+
+    .p:nth-child(5n-4) > .p-content > .p-task-container > input[type="text"] {
+        border-color: rgb(101, 193, 139);
+    }
+
+    .p:nth-child(5n-3) > .p-square {
+        background-color: rgb(134, 203, 160);
+    }
+
+    .p:nth-child(5n-3) > .p-content > .p-task-container > input[type="text"] {
+        border-color: rgb(134, 203, 160);
+    }
+
+    .p:nth-child(5n-2) > .p-square {
+        background-color: rgb(59, 116, 84);
+    }
+
+    .p:nth-child(5n-2) > .p-content > .p-task-container > input[type="text"] {
+        border-color: rgb(59, 116, 84);
+    }
+
+    .p:nth-child(5n-1) > .p-square {
+        background-color: rgb(96, 135, 109);
+    }
+
+    .p:nth-child(5n-1) > .p-content > .p-task-container > input[type="text"] {
+        border-color: rgb(96, 135, 109);
+    }
+
+    .p-holder {
+        width: 9999px; /*needs to be the same length as the content for scroll to work properly, but no less than 100%*/
+        min-width: 100%;
+        float: left;
+        clear: left;
+        background-color: #fff;
+        height: 190px;
+    }
+
+    .p-scroller {
+        overflow-y: hidden;
+        overflow-x: scroll;
+    }
+
+    .p-t-container {
+        float: left;
+        clear: left;
+        width: 90%;
+        background-color: rgb(255, 255, 255);
+        padding-bottom: 100px;
+        margin-left: 5%;
+        margin-top: 10px;
+        padding-top: 20px;
+    }
+
+    .p-c-title {
+        position: absolute;
+        top: -18px;
+        left: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: rgb(101, 193, 139);
+    }
+
+        .p-c-title > div {
+            float: left;
+            color: #fff;
+        }
+
+    .p-container {
+        margin-bottom: 60px;
+        float: left;
+        width: 100%;
+        position: relative;
+        height: 200px;
+        box-shadow: rgb(197, 197, 197) 0px -5px 10px -6px;
+    }
+
+
+    .p-content {
+        height: 185px;
+        float: left;
+        background-color: rgb(248, 248, 248);
+        overflow-x:hidden;
+        overflow-y:auto;
+    }
+
+    .selectedSubProject {
+        background-color: rgb(255, 214, 0);
+    }
+
+    .p-title {
+        
+        width: 250px;
+        position: absolute;
+        top: 0px;
+        left: 5px;
+        top: 5px;
+        z-index: 1;
+        text-transform:uppercase;
+        font-family: 'Archivo Black', sans-serif;
+        font-size: 20px;
+        color: #fff;
+        opacity: 0.8;
+        overflow-wrap: initial;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .sp-createnew {
+        margin-left: 40px;
+        cursor: pointer;
+    }
+
+    .warp-title {
+        float: right;
+        margin-bottom: 40px;
+        font-size: 50px;
+        margin-right: 5%;
+        margin-top: 20px;
+    }
+
+
+    .p-content-open {
+        width: 500px;
+    }
+
+    .p-task-container {
+        float: left;
+        clear: left;
+        width: 500px;
+        margin-top: 0px;
+        margin-left: 0px;
+    }
+
+        .p-task-container > input {
+            float: left;
+            font-family: Verdana;
+            color: rgb(75, 75, 75);
+        }
+
+    .p-task-value {
+        background-color: inherit;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: solid 1px;
+        font-family: inherit;
+        width: 88%;
+        margin-left: 2px;
+        padding-left: 5px;
+    }
+
+    input[type="checkbox"] {
+        margin-top: 7px;
+    }
+
+    .p-task-remove {
+        font-weight: bold;
+        margin-top: 2px;
+        margin-left: 5px;
+        float: left;
+        cursor: pointer;
+    }
+
+    .p-task-container.newTask > .p-task-remove {
+        display: none;
+    }
+
+    .processing {
+        color: #ccc;
+        cursor: default;
+    }
+
+    .p-c-title-value.editing {
+        background-color: #ccc;
+        padding-left: 10px;
+        padding-right: 10px;
+        color: #000;
+    }
+    .p-title.editing {
+        background-color: #ccc;
+        color: #000;
+    }
+    .p-task-container > input.completedTask {
+color: rgb(177, 177, 177);
+font-style: italic;
+}
+</style>
+<script>
+    //sortable
+    $(document).ready(function () {
+        $('.p-holder').sortable();//.disableSelection();
+    });
+    //Create new projects
+    $(document).on('click', '#p-create', function (e) {
+        $(this).attr('disabled', 'disabled');
+        CreateNewProject();
+    });
+    function CreateNewProject() {
+        var projectTitle = prompt("Enter a project name");
+        if (projectTitle != '') {
+            var data = {
+                Title: projectTitle,
+            };
+            var dataToPost = JSON.stringify(data);
+            $.ajax({
+                type: "POST",
+                url: "/Project/Create",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: dataToPost,
+                success: function (a) {
+                    if (a != null) {
+                        CreateProject(a, projectTitle);
+                        $('#p-create').removeAttr('disabled');
+                    } else {
+                        //error creating project
+                        NiceError('Error creating project');
+                    };
+                },
+                error: function (ex) {
+                    //communication error
+                },
+            });
+        } else {
+            //no project name entered
+        }
+    }
+    function CreateProject(ID, Title) {
+        var projText = '<div class="p-container" p-id="' + ID + '">';
+        projText += '<div class="p-c-title"><div class="p-c-title-value">' + Title + '</div>';
+        projText += '<div class="sp-createnew" title="create new subproject">+</div></div>';
+        projText += '<div class="p-scroller">';
+        projText += '<div class="p-holder ui-sortable">';
+        projText += '</div>';
+        projText += '</div>';
+        projText += '</div>';
+        $('.p-t-container').prepend(projText);
+    }
+    //Create new subprojects
+    $(document).on('click', '.sp-createnew', function () {
+        //disable it so user can't go nuts
+        $(this).css('color', '#ccc');
+        var subTaskTitle = prompt("Enter a title");
+        if (subTaskTitle.length > 0) {
+            var projectID = $(this).closest('.p-container').attr('p-id');
+            SaveNewSubProject(subTaskTitle, projectID);
+        }
+    });
+    function SaveNewSubProject(subProjectTitle, projectID) {
+        //Create new, save to db
+        var data = {
+            ProjectID: projectID,
+            Title: subProjectTitle,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/SubProject/Create",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    var subProjectID = '';
+                    $('.p-container[p-id="' + projectID + '"]').find('.sp-createnew').css('color', '#fff');
+                    InsertnewSubProject(subProjectTitle, projectID, a);
+                } else {
+                    //error creating project
+                    NiceError('Error creating sub project');
+                };
+            },
+            error: function (ex) {
+                //communication error
+            },
+        });
+
+    }
+    function InsertnewSubProject(subTaskTitle, projectID, subProjectID) {
+        var subProjText = '<div class="p" sp-id="' + subProjectID + '">';
+        subProjText += '<div class="p-square"><div class="p-title">' + subTaskTitle + '</div>';
+        subProjText += '<div class="p-progress"></div></div>';
+        subProjText += '<div class="p-content" style="width: 0px;"><div class="p-task-container newTask"><input type="checkbox" class="p-task-complete" title="task complete?"><input type="text" class="p-task-value"><div class="p-task-remove" title="delete task">x</div></div>';
+        subProjText += '</div>';
+        subProjText += '</div>';
+        $('.p-container[p-id="' + projectID + '"]').find('.p-holder').append(subProjText);
+        //format title to take up as much space as possible
+
+        var obj = $('.p[sp-id="' + subProjectID + '"]').find('.p-title').css('font-size', '50px');
+        while ($(obj)[0].scrollWidth > $(obj).width()) {
+            $(obj).css('font-size', (parseInt($(obj).css('font-size')) - 1) + 'px')
+        }
+
+    }
+    //Expand subprojects when clicked
+    $(document).on('click', '.p-square', function () {
+        //for double click events
+        $this = $(this);
+        //close any already open
+        $('.p-content').filter(function () {
+            return $this.width() >= 500;
+        }).animate({ width: "0px" });
+        $pContent = $this.closest('.p').find('.p-content');
+        var open = $pContent.width() == 500 ? true : false;
+        var toggleWidth = open ? "0px" : "500px";
+        var toggleDisplay = open ? "none" : "block";
+        $pContent.animate({ width: toggleWidth }, 200);
+
+    });
+    //Format titles to take up as much space as possible
+
+    //Save new tasks & Edit existing ones
+    $(document).on('focusout', '.p-task-value', function (e) {
+        $this = $(this);
+        if ($this.closest('.p-task-container').hasClass('newTask') && $this.val() != '') {
+            //Stop user from going cray cray
+            $this.closest('.p-task-container').find('input').attr('disabled', 'disabled');
+            $this.closest('.p-task-container').find('.p-task-remove').addClass('processing');
+            //if new task, need to save it and give it an id
+            SaveNewTask($this.closest('.p-task-container'), $this.closest('.p-content'), $this.val(), $this.closest('.p').attr('sp-id'));
+        } else {
+            if (!$this.closest('.p-task-container').hasClass('newTask')) {
+                //isn't a new task
+                EditExisitingTask($this);
+            } else {
+                //is a new task but user hasn't edited anything
+            }
+        }
+    });
+    function SaveNewTask($pTaskContainer, $pContent, Title, SubProjectID) {
+        var data = {
+            Title: Title,
+            SubProjectID: SubProjectID,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/Task/Create",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    Saved();
+                    $pTaskContainer.removeClass('newTask').attr('tID', a);
+                    InsertNewTask($pContent);
+                    //re-enable
+                    $pTaskContainer.find('input').removeAttr('disabled');
+                    $pTaskContainer.find('.p-task-remove').removeClass('processing');
+                } else {
+                    //error creating project
+                    NiceError('Error creating task');
+                };
+            },
+            error: function (ex) {
+                //communication error
+                NiceError('Error creating task');
+            },
+        });
+
+    }
+    function InsertNewTask(pContent, taskID, taskTitle) {
+        var taskContainerString = '<div class="p-task-container newTask">';
+        taskContainerString += '<input type="checkbox" class="p-task-complete" title="task complete?"/>';
+        taskContainerString += '<input type="text" class="p-task-value" value=""/>';
+        taskContainerString += '<div class="p-task-remove" title="delete task">x</div>';
+        taskContainerString += '</div>';
+        $(pContent).prepend(taskContainerString);
+    };
+    function EditExisitingTask($this) {
+        var data = {
+            TaskID: $this.closest('.p-task-container').attr('tid'),
+            Title: $this.val(),
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/Task/Edit",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    //If success,
+                    Saved();
+                } else {
+                    //error creating project
+                    NiceError('Error editing task');
+                };
+            },
+            error: function (ex) {
+                //communication error
+                NiceError('Error editing task');
+            },
+        });
+    }
+    //Toggle tasks complete
+    $(document).on('change', '.p-task-complete', function (e) {
+        var $this = $(this);
+        var data = {
+            TaskID: $this.closest('.p-task-container').attr('tid'),
+            Complete: $this.attr('checked') == 'checked',
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/Task/ToggleComplete",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    //If success,
+                    Saved();
+                    if (data.Complete) {
+                        $this.closest('.p-task-container').find('.p-task-value').addClass('completedTask');
+                    } else {
+                        $this.closest('.p-task-container').find('.p-task-value').removeClass('completedTask');
+                    };
+                } else {
+                    //error creating project
+                    NiceError('Error editing complete');
+                };
+            },
+            error: function (ex) {
+                //communication error
+                NiceError('Error editing complete');
+            },
+        });
+    });
+    //Delete tasks
+    $(document).on('click', '.p-task-remove', function (e) {
+        if (!$(this).hasClass('processing')) {
+            //Prevent user from doing anything crazy
+            $(this).addClass('processing');
+            $pTaskContainer = $(this).closest('.p-task-container');
+            $pTaskContainer.children('input').attr('disabled', 'disabled');
+            //Now delete it
+            DeleteTask($pTaskContainer);
+        } else {
+            //shit's already going on... 
+        }
+    });
+    function DeleteTask($pTaskContainer) {
+        //Delete the task
+        var data = {
+            TaskID: $pTaskContainer.attr('tid'),
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/Task/Delete",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    //If success, remove it
+                    $pTaskContainer.fadeOut(200, function () { $(this).remove() });
+                    Saved();
+                } else {
+                    //error creating project
+                    NiceError('Error deleting task');
+                };
+            },
+            error: function (ex) {
+                //communication error
+            },
+        });
+
+    }
+    //Rename project title
+    $(document).on('dblclick', '.p-c-title-value', function () {
+        $(this).attr('contenteditable', 'true');
+        $(this).addClass('editing');
+        $(this).focus();
+    });
+    $(document).on('focusout', '.p-c-title-value', function () {
+        var $element = $(this);
+        $element.attr('contenteditable', 'false');
+        $element.removeClass('editing');
+        //Save changes
+        RenameProject($element.text(), $element.closest('.p-container').attr('p-id'))
+    });
+    function RenameProject(newTitle, projectID) {
+        var data = {
+            NewTitle: newTitle,
+            ProjectID: projectID,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/Project/Rename",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    Saved();
+                } else {
+                    //error creating project
+                    NiceError('Error creating project');
+                };
+            },
+            error: function (ex) {
+                //communication error
+            },
+        });
+    }
+    //Rename sub-project title
+    $(document).on('dblclick', '.p-title', function (e) {
+        $(this).attr('contenteditable', 'true');
+        $(this).addClass('editing');
+        $(this).focus();
+        $('.p-holder').sortable("disable");
+    });
+    $(document).on('focusout', '.p-title', function (e) {
+        $('.p-holder').sortable("enable");
+        var $element = $(this);
+        $element.attr('contenteditable', 'false');
+        $element.removeClass('editing');
+        //Save changes
+        RenameSubProject($element.text(), $element.closest('.p').attr('sp-id'))
+    });
+    function RenameSubProject(newTitle, subProjectID) {
+        var data = {
+            NewTitle: newTitle,
+            SubProjectID: subProjectID,
+        };
+        var dataToPost = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/SubProject/Rename",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: dataToPost,
+            success: function (a) {
+                if (a != null) {
+                    Saved();
+                } else {
+                    //error creating project
+                    NiceError('Error creating project');
+                };
+            },
+            error: function (ex) {
+                //communication error
+            },
+        });
+    }
+</script>
+<div class="warp-title">WarpSpeed</div>
+<input type="button" value="Create Project" id="p-create" />
+
+<div class="p-t-container">
+    @if (Model != null)
+    {
+        foreach (Project proj in Model)
+        {
+        <div class="p-container" p-id="@proj.ID">
+            <div class="p-c-title">@Html.Raw(String.Format("<div class=\"p-c-title-value\">{0}</div><div class=\"sp-createnew\" title=\"create new subproject\">+</div>", proj.Title))</div>
+            <div class="p-scroller">
+                <div class="p-holder">
+                    <!--Set width of p-holder to be 250* number of subprojects!-->
+                    @foreach (SubProject subProj in proj.SubProjects)
+                    {
+                        <div class="p" sp-id="@subProj.ID">
+                            <div class="p-title">@subProj.Title</div>
+                            <div class="p-square">
+                                
+                                <div class="p-progress"></div>
+                            </div>
+                            <div class="p-content" style="width: 0px">
+                                <div class="p-task-container newTask" tID="">
+                                    <input type="checkbox" class="p-task-complete" title="task complete?" />
+                                    <input type="text" class="p-task-value" />
+                                    <div class="p-task-remove" title="delete task">x</div>
+                                </div>
+                                @foreach(Task task in subProj.Tasks.OrderByDescending(t=>t.Created)){
+                                 <div class="p-task-container" tID="@task.ID">
+                                    <input type="checkbox" class="p-task-complete" title="task complete?"
+                                       @if(task.Status==1){
+                                           @Html.Raw("checked=\"checked\"")
+                                       }
+                                        />
+                                    <input type="text" class="p-task-value
+                                         @if(task.Status==1){
+                                           @Html.Raw("completedTask")
+                                       }
+                                        " value="@task.Title"/>
+                                    <div class="p-task-remove" title="delete task">x</div>
+                                </div>   
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+        }
+    }
+</div>
+@{
+    <script>
+        /*
+        $(window).load(function(){
+            $('.p-title').css('font-size', '50px');
+            $('.p-title').each(function (i, obj) {
+                while (obj.scrollWidth > $(obj).width()) {
+                    $(obj).css('font-size', (parseInt($(obj).css('font-size')) - 1) + 'px')
+                }
+            });
+        });*/
+    </script>
+}
+

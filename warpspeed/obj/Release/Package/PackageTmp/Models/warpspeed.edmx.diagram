@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="11e3cc7d705440a683f61cec1ec107dd" Name="Diagram1" ZoomLevel="55" >
+        <EntityTypeShape EntityType="warpspeedModel.Group" Width="1.5" PointX="5.926222602802433" PointY="1.3544912791599013" />
+        <EntityTypeShape EntityType="warpspeedModel.NotificationSeen" Width="1.5" PointX="8.0560497828088931" PointY="9.548946996009418" />
+        <EntityTypeShape EntityType="warpspeedModel.NotificationType" Width="1.5" PointX="2.0398424929193419" PointY="20.987111205694784" />
+        <EntityTypeShape EntityType="warpspeedModel.Privilege" Width="1.5" PointX="1.8000472680665771" PointY="0.92886874122958107" />
+        <EntityTypeShape EntityType="warpspeedModel.Project" Width="1.5" PointX="4.8086506225208989" PointY="29.970001353868284" />
+        <EntityTypeShape EntityType="warpspeedModel.ProjectNotification" Width="1.5" PointX="8.16281890690458" PointY="15.822503454900581" />
+        <EntityTypeShape EntityType="warpspeedModel.SubProject" Width="1.5" PointX="4.6483643542269082" PointY="5.0580488019893171" />
+        <EntityTypeShape EntityType="warpspeedModel.SubProjectNotifcation" Width="1.5" PointX="3.6147882806206066" PointY="6.2006834327246452" />
+        <EntityTypeShape EntityType="warpspeedModel.Task" Width="1.5" PointX="0.42382655312485368" PointY="14.295979506473978" />
+        <EntityTypeShape EntityType="warpspeedModel.TaskNotifcation" Width="1.5" PointX="8.8773798238846382" PointY="8.1145261414882377" />
+        <EntityTypeShape EntityType="warpspeedModel.Type" Width="1.5" PointX="6.86431218630835" PointY="29.649754195310994" />
+        <EntityTypeShape EntityType="warpspeedModel.WUser" Width="1.5" PointX="4.8628828827584556" PointY="10.383670409388687" />
+        <EntityTypeShape EntityType="warpspeedModel.WUserProject" Width="1.5" PointX="10.95183069210119" PointY="20.784845481060838" />
+        <EntityTypeShape EntityType="warpspeedModel.WUserSubproject" Width="1.5" PointX="5.4431626822069106" PointY="0.92298923475807026" />
+        <AssociationConnector Association="warpspeedModel.FK__Notificat__Proje__75A278F5" />
+        <AssociationConnector Association="warpspeedModel.FK__Notificat__SubPr__76969D2E" />
+        <AssociationConnector Association="warpspeedModel.FK__Notificat__TaskN__74AE54BC" />
+        <AssociationConnector Association="warpspeedModel.FK__Notificat__WUser__73BA3083" />
+        <AssociationConnector Association="warpspeedModel.FK__ProjectNo__TypeI__5AEE82B9" />
+        <AssociationConnector Association="warpspeedModel.FK__SubProjec__TypeI__619B8048" />
+        <AssociationConnector Association="warpspeedModel.FK__TaskNotif__TypeI__68487DD7" />
+        <AssociationConnector Association="warpspeedModel.FK__WUserProj__Privi__0F975522" />
+        <AssociationConnector Association="warpspeedModel.FK__WUserSubp__Privi__34C8D9D1" />
+        <AssociationConnector Association="warpspeedModel.FK__Project__Created__0519C6AF" />
+        <AssociationConnector Association="warpspeedModel.FK__ProjectNo__Proje__59063A47" />
+        <AssociationConnector Association="warpspeedModel.FK__SubProjec__Proje__267ABA7A" />
+        <AssociationConnector Association="warpspeedModel.FK__WUserProj__Proje__0EA330E9" />
+        <AssociationConnector Association="warpspeedModel.FK__ProjectNo__WUser__59FA5E80" />
+        <AssociationConnector Association="warpspeedModel.FK__SubProjec__Creat__286302EC" />
+        <AssociationConnector Association="warpspeedModel.FK__SubProjec__SubPr__5FB337D6" />
+        <AssociationConnector Association="warpspeedModel.FK__SubProjec__TypeI__276EDEB3" />
+        <AssociationConnector Association="warpspeedModel.FK__Task__SubProject__2D27B809" />
+        <AssociationConnector Association="warpspeedModel.FK__WUserSubp__Subpr__33D4B598" />
+        <AssociationConnector Association="warpspeedModel.FK__SubProjec__WUser__60A75C0F" />
+        <AssociationConnector Association="warpspeedModel.FK__Task__CreatedID__2E1BDC42" />
+        <AssociationConnector Association="warpspeedModel.FK__TaskNotif__TaskI__66603565" />
+        <AssociationConnector Association="warpspeedModel.fk_TaskID_ParentTaskID" />
+        <AssociationConnector Association="warpspeedModel.FK__TaskNotif__WUser__6754599E" />
+        <AssociationConnector Association="warpspeedModel.FK__WUserProj__WUser__0DAF0CB0" />
+        <AssociationConnector Association="warpspeedModel.FK__WUserSubp__WUser__32E0915F" />
+        <AssociationConnector Association="warpspeedModel.WUserGroups" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
